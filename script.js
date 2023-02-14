@@ -20,7 +20,30 @@ loadingTask.promise.then(function(pdf) {
   // Concaténer le texte de toutes les lignes pour obtenir le texte complet de la page
   const text = textContent.items.map(item => item.str).join(' ');
   console.log(text,'je suis la ');
+  const nomRegExp = /M\.\s([A-Z]+)\s([A-Z]+)/;
+  const adresseRegExp = /(\d+)\s([A-Z]+\s?[A-Z]*)\s(.*?)\s(\d{5})/;
+  
+  const nomMatch = text.match(nomRegExp);
+  const adresseMatch = text.match(adresseRegExp);
+  
+  if (nomMatch) {
+    const nom = nomMatch[2];
+    const prenom = nomMatch[1];
+    console.log(`Nom : ${nom}, Prénom : ${prenom}`);
+  } else {
+    console.log("Aucun nom trouvé.");
+  }
+  
+  if (adresseMatch) {
+    const rue = adresseMatch[1] + " " + adresseMatch[2];
+    const ville = adresseMatch[3];
+    const codePostal = adresseMatch[4];
+    console.table(`Adresse : ${rue}, ${ville} ${codePostal}`);
+  } else {
+    console.log("Aucune adresse trouvée.");
+  }
 });
+
 
 
 // Charger le fichier PDF
